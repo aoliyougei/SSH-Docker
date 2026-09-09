@@ -100,7 +100,8 @@ spec:
               containerPort: 22
           volumeMounts:
             - name: authorized-keys
-              mountPath: /etc/ssh/authorized_keys
+              mountPath: /etc/ssh/authorized_keys/aoliyougei
+              subPath: aoliyougei
               readOnly: true
       volumes:
         - name: authorized-keys
