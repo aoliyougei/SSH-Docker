@@ -2,17 +2,17 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** Build a Debian 12 container that accepts public-key SSH connections as the unprivileged `aoliyougei` user and can execute Bash scripts with `curl` available.
+**Goal:** Build a Debian 13 container that accepts public-key SSH connections as the unprivileged `aoliyougei` user and can execute Bash scripts with `curl` available.
 
 **Architecture:** OpenSSH runs directly as PID 1 and reads `aoliyougei`'s authorized keys from the externally mounted `/etc/ssh/authorized_keys/aoliyougei` file. The image contains no user keys, passwords, sudo, entrypoint script, or process supervisor.
 
-**Tech Stack:** Docker, Debian 12 slim, OpenSSH Server, Bash, curl, Kubernetes Secret volume
+**Tech Stack:** Docker, Debian 13 slim, OpenSSH Server, Bash, curl, Kubernetes Secret volume
 
 **Spec:** `docs/superpowers/specs/2026-04-13-ssh-container-design.md`
 
 ## Global Constraints
 
-- Base image is `debian:12-slim`.
+- Base image is `debian:13-slim`.
 - Install only `openssh-server`, `bash`, `curl`, and `ca-certificates`, plus package-manager-resolved dependencies.
 - SSH user is the unprivileged `aoliyougei` user with no `sudo` access.
 - Permit public-key authentication only; disable password, keyboard-interactive, and root SSH login.
@@ -57,7 +57,7 @@ Subsystem sftp internal-sftp
 Create `Dockerfile`:
 
 ```dockerfile
-FROM debian:12-slim
+FROM debian:13-slim
 
 RUN apt-get update \
  && apt-get install -y --no-install-recommends openssh-server bash curl ca-certificates \
@@ -139,7 +139,7 @@ Expected: build exits successfully and the final image is tagged `ssh-box:test`.
 
 - [ ] **Step 5: Generate an ephemeral test key without writing it to the project**
 
-Create a temporary `debian:12-slim` helper container, install `openssh-client`, and run:
+Create a temporary `debian:13-slim` helper container, install `openssh-client`, and run:
 
 ```bash
 ssh-keygen -q -t ed25519 -N '' -f /tmp/id_ed25519

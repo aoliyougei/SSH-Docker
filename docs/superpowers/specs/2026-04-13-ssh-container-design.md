@@ -2,11 +2,11 @@
 
 ## 目标
 
-构建一个基于 Debian 12 的容器，允许用户通过 SSH 公钥以普通用户 `aoliyougei` 登录，并执行 Bash 脚本。镜像同时提供 `curl` 和系统 CA 证书。
+构建一个基于 Debian 13 的容器，允许用户通过 SSH 公钥以普通用户 `aoliyougei` 登录，并执行 Bash 脚本。镜像同时提供 `curl` 和系统 CA 证书。
 
 ## 镜像与软件
 
-- 基础镜像：`debian:12-slim`
+- 基础镜像：`debian:13-slim`
 - 安装包：`openssh-server`、`bash`、`curl`、`ca-certificates`
 - SSH 登录用户：`aoliyougei`
 - `aoliyougei` 不拥有 `sudo` 权限
