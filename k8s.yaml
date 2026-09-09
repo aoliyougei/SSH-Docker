@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ssh-box
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ssh-box
+  template:
+    metadata:
+      labels:
+        app: ssh-box
+    spec:
+      containers:
+        - name: ssh-box
+          image: ssh-box:latest
+          ports:
+            - name: ssh
+              containerPort: 22
+          volumeMounts:
+            - name: authorized-keys
+              mountPath: /etc/ssh/authorized_keys
+              readOnly: true
+      volumes:
+        - name: authorized-keys
+          secret:
+            secretName: ssh-authorized-keys
+            defaultMode: 0444
+            items:
+              - key: authorized_keys
+                path: aoliyougei
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ssh-box
+spec:
+  selector:
+    app: ssh-box
+  ports:
+    - name: ssh
+      port: 22
+      targetPort: ssh
